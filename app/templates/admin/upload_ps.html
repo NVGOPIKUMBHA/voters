@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div style="margin:5%">
+    <form method="post" enctype="multipart/form-data">
+        <p>State:</p>
+        <input type="text" name="state">
+        <p>Party:</p>
+        <input type="text" name="party">
+        <p>Please upload the excel file here:</p>
+        <input type="file" name="ps_excel">
+        <input type="submit" value="Enter Polling Stations">
+    </form>
+</div>
+ 
+{% endblock content %}

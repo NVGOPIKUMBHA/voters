@@ -1,0 +1,27 @@
+{% extends 'assembly/base.html' %}
+
+{% block content %}
+
+<div>
+    <h1>Add User</h1>
+    <br>
+    <br>
+    <form class="fform" method="post">
+        <p>Select a Polling Station:</p>
+        <select name="poll">
+            <option value="none">--select--</option>
+            {% for p in ps %}
+                <option value="{{p.number}}-{{ p.name }}">{{p.number}}-{{ p.name }}</option>
+            {% endfor %}
+        </select>
+
+        <input type="text" name="name" required placeholder="Name">
+        <input type="text" name="username" required placeholder="Username">
+        <input type="text" name="pswd" required placeholder="Password">
+        <input type="text" name="phone" required placeholder="Phone number">
+
+        <input type="submit" class="submit-btn" value="Submit">
+    </form>
+</div>
+
+{% endblock content %}

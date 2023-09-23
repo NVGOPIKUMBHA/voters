@@ -1,0 +1,33 @@
+{% extends 'assembly/base.html' %}
+
+{% block content %}
+
+<div>
+    <h1>Add Assembly Constituency Member</h1>
+    <br>
+    <br>
+    <form class="fform" method="post">
+        <select name="assembly">
+            <option value="none">--select--</option>
+            {% for c in range(assemblies|length) %}
+                <option value="{{ assemblies[c] }}">{{c+1}}. {{ assemblies[c] }}</option>
+            {% endfor %}
+        </select>
+
+        <div>
+            <p>Select Mandals Under This Constituency Assembly:</p>
+            {% for m in mandals %}
+            <div class="checkbox"><input type="checkbox" name="mandals" value="{{m}}"><span>{{ m }}</span></div>
+            {% endfor %}
+        </div>
+
+        <input type="text" name="name" required placeholder="Name">
+        <input type="text" name="username" required placeholder="Username">
+        <input type="text" name="pswd" required placeholder="Password">
+        <input type="text" name="phone" required placeholder="Phone number">
+
+        <input type="submit" class="submit-btn" value="Submit">
+    </form>
+</div>
+
+{% endblock content %}

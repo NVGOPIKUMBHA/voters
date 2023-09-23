@@ -1,0 +1,391 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if constituency and poll_num %}
+<div style="margin:20px 5px">
+    <div style="display:flex;flex-direction:column;justify-content:center;text-align:center">
+        <p>Parliamentry Constituency: <b class="capitalize">{{ constituency }}</b></p>
+        <p>Assembly Constituency: <b class="capitalize">{{ assembly }}</b></p>
+    </div>
+    <br>
+    <div style="display:flex;flex-direction:row;justify-content:space-evenly">
+        <p>Polling Station Name: <b class="capitalize">{{ poll_name }}</b></p>
+        <p>Polling Station Number: <b class="capitalize">{{ poll_num }}</b></p>
+    </div>
+    <br>
+    <div style="display:flex;flex-direction:column;justify-content:center;text-align:center">
+        <p>Polling Station Location: <b class="capitalize">{{ loc }}</b></p>
+    </div>
+</div>
+<hr class="separator">
+<br>
+
+<form method="post">
+    <input type="text" class="invisible-input" id="myConstituency" name="constituency" value="{{ constituency }}">
+    <input type="text" class="invisible-input" id="myAssembly" name="assembly" value="{{ assembly }}">
+    <input type="text" class="invisible-input" id="myPnum" name="polling_no" value="{{ poll_num }}">
+    <input type="text" class="invisible-input" id="myPname" name="poll_name" value="{{ poll_name }}">
+    <input type="text" class="invisible-input" id="myPloc" name="location" value="{{ loc }}">
+    <div class="entry-form">
+        <div class="input-field">
+            <p>Voter Serial Number:</p>
+            <select id="myserial" class="capitalize" name="serial_no" required>
+                <option value="none">--select--</option>
+                {% for i in serials %}
+                <option value="{{i}}">{{i}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="input-field">
+            <p>Mandal:</p>
+            <select id="myMandal" name="mandal">
+                <option value="none">--select--</option>
+                {% for i in range(mandals|length) %}
+                    <option value="{{ mandals[i] }}">{{i+1}}. {{ mandals[i] }}</option>
+                {% endfor %} 
+            </select>
+        </div>
+        <div class="input-field">
+            <p>Main Town/Village/Division/Ward:</p>
+            <input class="capitalize" type="text" name="main_village" required>
+        </div>
+        <div class="input-field">
+            <p>House No.:</p>
+            <input type="text" class="to-be-disabled" name="house_no" required>
+        </div>
+        
+        <div class="input-field">
+            <p>Name of the voter:</p>
+            <input type="text" name="voter_name" class="to-be-disabled" required>
+        </div>
+        <div class="input-field">
+            <p>Father/Husband Name:</p>
+            <input type="text" name="father_name" class="to-be-disabled" required>
+        </div>
+        <div class="input-field">
+            <p>Relation:</p>
+            <select name="relation" class="to-be-disabled">
+                <option value="none">--select--</option>
+                <option value="father">Father</option>
+                <option value="husband">Husband</option>
+            </select>
+        </div>
+        <div class="input-field">
+            <p>Date of Birth:</p>
+            <input type="date" name="dob" required>
+        </div>
+        <div class="input-field">
+            <p>Age:</p>
+            <input type="number" name="age" class="to-be-disabled" required>
+        </div>
+
+        <div class="input-field">
+            <p>Gender:</p>
+            <select name="gender" class="to-be-disabled">
+                <option value="none">--select--</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">third gender</option>
+            </select>
+        </div>
+        
+        <div class="input-field">
+            <p>Epic Number:</p>
+            <input class="capitalize" type="text" class="to-be-disabled" name="epic_no" required>
+        </div>
+
+        <div class="input-field">
+            <p>Family No.:</p>
+            <input type="text" name="family_no" class="to-be-disabled" required>
+        </div>
+
+        <div class="input-field">
+            <p>Habitation/Colony:</p>
+            <input type="text" name="habitation" required>
+        </div>
+
+        <div class="input-field">
+            <p>Native State:</p>
+            <input type="text" name="native_state" class="to-be-disabled" required>
+        </div>
+
+        <div class="input-field">
+            <p>Native District:</p>
+            <input type="text" name="native_district" class="to-be-disabled" required>
+        </div>
+
+        <div class="input-field">
+            <p>Religion:</p>
+            <select id="religion" name="religion">
+                <option value="none">--select--</option>
+                {% for i in range(religions|length) %}
+                    <option value="{{ religions[i].name }}">{{i+1}}. {{ religions[i].name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="input-field">
+            <p>Community:</p>
+            <select name="community" id="community">
+                <option value="none">--select--</option>
+                {% for i in range(communities|length) %}
+                <option value="{{ communities[i].name }}">{{i+1}}. {{ communities[i].name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="input-field">
+            <p>Sub Caste:</p>
+            <select id="showSubcastes" name="sub_caste">
+                <option value="none">--select--</option>
+                {% for i in range(subcastes|length) %}
+                    <option value="{{ subcastes[i] }}">{{i+1}}. {{ subcastes[i] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    
+        <div class="input-field">
+            <p>Educational Qualification:</p>
+            <select name="qualification">
+                <option value="none">--select--</option>
+                <option value="illiterate">1. illiterate</option>
+                <option value="below-10">2. Below 10th</option>
+                <option value="10">3. 10th</option>
+                <option value="inter">4. Intermediate</option>
+                <option value="degree">5. Degree</option>
+                <option value="btech">6. B.Tech</option>
+                <option value="pg">7. Post Graduation</option>
+                <option value="phd">8. PhD</option>
+            </select>
+        </div>
+        <div class="input-field">
+            <p>Profession:</p>
+            <select id="profession" name="profession">
+                <option value="none">--select--</option>
+                <option value="private-employee">1. Private Employee</option>
+                <option value="farmer">2. Farmer</option>
+                <option value="labour">3. Agricultural work (Labour)</option>
+                <option value="self-employed">4. Self Employed</option>
+                <option value="business">5. Business</option>
+                <option value="govt-employee">6. Government Employee</option>
+                <option value="housewife">7. House Wife</option>
+                <option value="student">8. Student</option>
+                <option value="retired">9. Retired employee</option>
+                <option value="rmp">10. RMP</option>
+                <option value="press">11. press</option>
+                <option value="anganvadi">12. anganvadi</option>
+                <option value="asha worker">13. asha worker</option>
+                <option value="religious-leader">14. religious leader</option>
+                <option value="others">15. Other</option>
+            </select>
+        </div>
+
+        <div id="religiousFields" class="input-field">
+            <p>Religious Leader:</p> 
+            <select name="religious_leader">
+                <option value="none">--select--</option>
+                <option value="paster">paster</option>
+                <option value="imam">imam</option>
+                <option value="pujari">pujari</option>
+            </select>
+        </div>
+
+        <div id="normalFields" class="input-field">
+            <p>Company:</p>
+            <input type="text" name="company">
+            <p>Working Place:</p>
+            <input type="text" name="working_place">
+        </div>
+        <div id="govtFields" class="input-field">
+            <p>Department:</p>
+            <select name="department">
+                <option value="none">--select--</option>
+                <option value="agriculture and co-operation">1. agriculture and co-operation</option>
+                <option value="animal husbandry and fisheries">2. animal husbandry and fisheries</option>
+                <option value="backward classes welfare">3. backward classes welfare</option>
+                <option value="food and civil supplies">4. food and civil supplies</option>
+                <option value="electricity">5. electricity</option>
+                <option value="forest">6. forest</option>
+                <option value="health,medical and family welfare">7. health,medical and family welfare</option>
+                <option value="education">8. Education</option>
+                <option value="police">9. police</option>
+                <option value="housing">10. housing</option>
+                <option value="industries">11. industries</option>
+                <option value="irrigation">12. irrigation</option>
+                <option value="labour">13. labour</option>
+                <option value="law">14. law</option>
+                <option value="minorities welfare">15. minorities welfare</option>
+                <option value="municipal adminstration and urban development">16. municipal adminstration and urban development</option>
+                <option value="panchayatraj and rural development">17. panchayatraj and rural development</option>
+                <option value="revenue">18. revenue</option>
+                <option value="excise">19. excise</option>
+                <option value="social welfare">20. social welfare</option>
+                <option value="tribal welfare">21. tribal welfare</option>
+                <option value="transport">22. transport</option>
+                <option value="roads and buildings">23. roads and buildings</option>
+                <option value="women development,child welfare and disabled welfare">24. women development,child welfare and disabled welfare</option>
+                <option value="youth,tourism and culture">25. youth,tourism and culture</option>
+                
+            </select>
+            <p>Working Place:</p>
+            <input type="text" name="g_working_place">
+        </div>
+
+        <div id="businessFields" class="input-field">
+            <p>Business Type:</p>
+            <select name="business_type">
+                <option value="none">--select--</option>
+                <option value="shop">1. Shop</option>
+                <option value="poultry">2. poultry</option>
+                <option value="transport">3. transport</option>
+                <option value="mechanical shed">4. mechanical shed</option>
+                <option value="construction">5. construction</option>
+                <option value="roadside vendor">6. roadsaide vendor</option>
+                <option value="vegetable/fruits vehicle">7. vegetable/fruits vehicle</option>
+            </select>
+        </div>
+        <div class="input-field">
+            <p>Individual beneficiary:</p>
+            <select name="is_beneficiary" id="is_beneficiary">
+                <option value="no">--select--</option>
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+            </select>
+            <div id="beneficiariesList">
+                <p>Type of beneficiary:</p>
+                <div class="checkbox"><input type="checkbox" name="beneficiary"  id="beneficiary" value="asara"><span>1. Asara</span></div>
+                <div class="checkbox"><input type="checkbox" name="beneficiary" value="raithabandhu"><span>2. Raithabandhu</span></div>
+                <div class="checkbox"><input type="checkbox" name="beneficiary" value="kalyana laxmi"><span>3. kalyana laxmi</span></div>
+                <div class="checkbox"><input type="checkbox" name="beneficiary" value="kcr kit"><span>4. kcr kit</span></div>
+                <div class="checkbox"><input type="checkbox" name="beneficiary" value="sheep unit"><span>5. sheep unit</span></div>
+                <div class="checkbox"><input type="checkbox" name="beneficiary" value="double bedroom house"><span>6. double bedroom house</span></div>
+                <div class="checkbox"><input type="checkbox" name="beneficiary" value="sahithabandhu"><span>7. sahithabandhu</span></div>
+                <div class="checkbox"><input type="checkbox" name="beneficiary" value="beedi workers"><span>8. beedi workers</span></div>
+                <div class="checkbox"><input type="checkbox" name="beneficiary" value="gruha lakshmi"><span>9. gruha lakshmi (3 lakhs/house)</span></div>
+                <div class="checkbox"><input type="checkbox" name="beneficiary" value="podu land pattas"><span>10. podu land pattas</span></div>
+                <div class="checkbox"><input type="checkbox" name="beneficiary" value="dalitabandhu"><span>11. dalitabandhu</span></div>
+                <div class="checkbox"><input type="checkbox" name="beneficiary" value="kantivelugu"><span>12. kantivelugu (spects)</span></div>
+                <div class="checkbox"><input type="checkbox" name="beneficiary" value="arogya mahila"><span>13. arogya mahila</span></div>
+                <div class="checkbox"><input type="checkbox" name="beneficiary" value="others">14. others</div>
+                <div id="showAsara">
+                    <br>
+                    <p>Select Asara Beneficiaries:</p>
+                    <select name="asara">
+                        <option value="old age pension">1. old age pension</div>
+                        <option value="disabled">2. disabled</div>
+                        <option value="widow">3. widow</div>
+                        <option value="taddy tappers">4. taddy tappers</div>
+                        <option value="heart patients">5. heart patients</div>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="input-field">
+            <p>Diasability:</p>
+            <select name="special_category">
+                <option value="none">--select--</option>
+                <option value="none">1. none</option>
+                <option value="physical">2. physical</option>
+                <option value="mental illness">3. mental illness</option>
+                <option value="visual">4. visual</option>
+                <option value="hearing">5. hearing</option>
+            </select>
+        </div>
+
+        <div class="input-field">
+            <p>Residence Type:</p>
+            <select id="residence" name="residence_type">
+                <option value="none">--select--</option>
+                <option value="local">1. Local</option>
+                <option value="non-local">2. Non-Local</option>
+                <option value="death">3. death</option>
+                <option value="deleted">4. deleted</option>
+                <option value="double"5. >double</option>
+            </select>
+        </div>
+
+        <div id="showResidence" class="input-field">
+            <p>At present living Place:</p>
+            <input type="text" name="residence">
+        </div>
+
+        <div class="input-field">
+            <p>House Type:</p>
+            <select name="house_type">
+                <option value="none">--select--</option>
+                <option value="owned">1. Owned</option>
+                <option value="rented">2. Rented</option>
+            </select>
+        </div>
+
+        <div class="input-field">
+            <p>Vehicle Type:</p>
+            <div class="checkbox"><input type="checkbox" name="vehicle" value="2 wheeler"><span>1. Two wheeler</span></div>
+            <div class="checkbox"><input type="checkbox" name="vehicle" value="3 wheeler"><span>2. Three wheeler</span></div>
+            <div class="checkbox"><input type="checkbox" name="vehicle" value="4 wheeler"><span>3. Four wheeler</span></div>
+            <div class="checkbox"><input type="checkbox" name="vehicle" value="bicycle"><span>4. Bicycle</span></div>
+            <div class="checkbox"><input type="checkbox" name="vehicle" value="none"><span>5. None</span></div>
+        </div>
+
+        <div class="input-field">
+            <p>Contact No.:</p>
+            <input type="text" name="contact_no">
+        </div>
+
+        <div class="input-field">
+            <p>Phone Type:</p>
+            <select  name="phome_type">
+                <option value="none">--select--</option>
+                <option value="smart phone">Smart Phone</option>
+                <option value="normal phone">Normal Phone</option>
+            </select>
+        </div>
+
+        <div class="input-field">
+            <p>Email:</p>
+            <input type="text" name="email">
+        </div>
+
+        <div class="input-field">
+            <p>Party Affiliation:</p>
+            <select  name="party_affiliation">
+                <option value="none">--select--</option>
+                {% for i in range(parties|length) %}
+                    <option value="{{ parties[i] }}">{{i+1}}. {{ parties[i] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="input-field">
+            <p>Influential local leader:</p>
+            <input type="text" name="leader">
+        </div>
+
+        <div class="input-field">
+            <p>Local leader party:</p>
+            <select  name="influencer_party">
+                <option value="none">--select--</option>
+                {% for i in range(parties|length) %}
+                    <option value="{{ parties[i] }}">{{i+1}}. {{ parties[i] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+    </div>
+
+    <input type="submit" class="submit-btn" value="Submit">
+
+</form>
+
+
+
+{% else %}
+
+<p>You are not allowed here.</p>
+
+{% endif %}
+
+
+{% endblock content%}

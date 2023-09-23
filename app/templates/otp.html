@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>OTP Security</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="style.css") }}">
+    </head>
+    <body>
+        
+        {% if role %}
+        <div style="display:flex;justify-content:center;margin:5%">
+            <h2>Enter OTP received on your mobile number.</h2>
+            <br>
+            <br>
+            <form method="post">
+                <input type="text" name="otp">
+                <input type="text" class="invisible-input" value="{{role}}" name="role">
+                <input type="text" class="invisible-input" value="{{id}}" name="id">
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        {% endif %}
+        
+        <script src="" async defer></script>
+    </body>
+</html>

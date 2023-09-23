@@ -1,0 +1,25 @@
+{% extends 'constituency/base.html' %}
+
+{% block content %}
+
+<div>
+    <h1>Add Parliamentry Constituency Member</h1>
+    <br>
+    <br>
+    <form class="fform" method="post">
+        <select name="const">
+            <option value="none">--select--</option>
+            {% for c in range(consts|length) %}
+                <option value="{{ consts[c] }}">{{c+1}}. {{ consts[c] }}</option>
+            {% endfor %}
+        </select>
+        <input type="text" name="name" required placeholder="Name">
+        <input type="text" name="username" required placeholder="Username">
+        <input type="text" name="pswd" required placeholder="Password">
+        <input type="text" name="phone" required placeholder="Phone number">
+
+        <input type="submit" class="submit-btn" value="Submit">
+    </form>
+</div>
+
+{% endblock content %}

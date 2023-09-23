@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="style.css") }}">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.min.js" integrity="sha512-v3ygConQmvH0QehvQa6gSvTE2VdBZ6wkLOlmK7Mcy2mZ0ZF9saNbbk19QeaoTHdWIEiTlWmrwAL4hS8ElnGFbA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title>Voters</title>
+</head>
+<body>
+
+    <nav>
+        <h1>Voter Profiles</h1>
+        {% if constituency %}
+        <a href="/constituency/logout">Logout</a>
+        {% endif %}
+    </nav>
+
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+    {% for cat,message in messages %}
+    
+    <div style="position:relative">
+        <div class="{{ cat }}"><p>{{ message }}</p><p>Close</p></div>
+    </div>
+    
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    
+    <div class="big-container">
+
+        {% block content %}
+        
+        
+        
+        {% endblock content %}
+
+    </div>
+
+    <script src="{{ url_for('static', filename="script.js") }}"></script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+
+{% extends 'constituency/base.html' %}
+
+{% block content %}
+
+<div>
+    <form class="entry-form" method="post">
+        <div class="input-field">
+            <p>Select Assembly Constituency:</p>
+            <select name="assembly" id="rchangeAssembly">
+                <option value="all">all</option>
+                {% for c in assemblies %}
+                    <option value="{{ c }}">{{ c }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="input-field">
+            <p>Select Mandal:</p>
+            <select name="mandal" id="rmandal">
+                <option value="all">all</option>
+                {% for c in mandals %}
+                    <option value="{{ c }}">{{ c }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="input-field">
+            <p>Select Polling Station Number:</p>
+            <select name="poll_num" id="rpollingNo">
+                <option value="all">all</option>
+                {% for c in polling_nos %}
+                    <option value="{{ c }}">{{ c }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <br>
+        <div class="input-field">
+            <p>Select Habitation(s):</p>
+            <div class="checkbox"><input type="checkbox" name="habitations" value="all"><span>ALL</span></div>
+            <div id="showHabitations">
+            </div>
+        </div>
+
+        <br>
+
+        <div class="input-field">
+            <p>Select Local Leader(s):</p>
+            <div class="checkbox"><input type="checkbox" name="leaders" value="all"><span>ALL</span></div>
+            <div id="showLeaders">
+            </div>
+        </div>
+
+        <br>
+
+        <div class="input-field">
+            <p>Age Group:</p>
+            <select name="age">
+                <option value="all">all</option>
+                <option value="18-29">18 - 29</option>
+                <option value="30-45">30 - 45</option>
+                <option value="30-57">30 - 57</option>
+                <option value="46-57">46 - 57</option>
+                <option value="58-200">58 and above</option>
+                <option value="70-200">70 and above</option>
+            </select>
+        </div>
+        <div class="input-field">
+            <p>Gender: </p>
+            <select name="gender">
+                <option value="all">all</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Third gender</option>
+            </select>
+        </div>
+        <div class="input-field">
+            <p>Religion:</p>
+            <select name="religion">
+                <option value="all">all</option>
+                {% for s in religions %}
+                    <option value="{{ s }}">{{ s }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="input-field">
+            <p>Community:</p>
+            <select name="community" id="rcommunity">
+                <option value="all">all</option>
+                <option value="bc">BC</option>
+                <option value="sc">SC</option>
+                <option value="st">ST</option>
+                <option value="oc">OC</option>
+                <option value="north indian">North Indian</option>
+            </select>
+        </div>
+        <div class="input-field">
+            <p>Sub Caste:</p>
+            <select id="showSubcastes" name="sub_caste">
+                <option value="all">all</option>
+            </select>
+        </div>
+        
+        <div class="input-field">
+            <p>Educational Qualification:</p>
+            <select name="qualification">
+                <option value="all">All</option>
+                <option value="illiterate">illiterate</option>
+                <option value="below-10">Below 10th</option>
+                <option value="10">10th</option>
+                <option value="inter">Intermediate</option>
+                <option value="degree">Degree</option>
+                <option value="btech">B.Tech</option>
+                <option value="pg">Post Graduation</option>
+                <option value="phd">PhD</option>
+            </select>
+        </div>
+        <div class="input-field">
+            <p>Profession:</p>
+            <select id="rprofession" name="profession">
+                <option value="all">All</option>
+                <option value="private-employee">Private Employee</option>
+                <option value="farmer">Farmer</option>
+                <option value="labour">Agricultural work (Labour)</option>
+                <option value="self-employed">Self Employed</option>
+                <option value="business">Business</option>
+                <option value="govt-employee">Government Employee</option>
+                <option value="housewife">House Wife</option>
+                <option value="others">Others</option>
+            </select>
+        </div>
+        <div id="rbusinessFields" class="input-field">
+            <p>Business Type:</p>
+            <select name="business_type">
+                <option value="all">All</option>
+                <option value="shop">Shop</option>
+                <option value="poultry">poultry</option>
+                <option value="transport">transport</option>
+                <option value="mechanical shed">mechanical shed</option>
+                <option value="construction">construction</option>
+                <option value="roadside vendor">roadsaide vendor</option>
+                <option value="vegetable/fruits vehicle">vegetable/fruits vehicle</option>
+            </select>
+        </div>
+        <div class="input-field">
+            <p>Individual beneficiary:</p>
+            <select value="beneficary" name="beneficiary" id="rbeneficiary">
+                <option value="all">All</option>
+                <option value="asara">Asara</option>
+                <option value="raithabandhu">Raithabandhu</option>
+                <option value="kalyana laxmi">kalyana laxmi</option>
+                <option value="kcr kit">kcr kit</option>
+                <option value="sheep unit">sheep unit</option>
+                <option value="double bedroom house">double bedroom house</option>
+                <option value="sahithabandhu">sahithabandhu</option>
+                <option value="beedi workers">beedi workers</option>
+                <option value="others">others</option>
+            </select>
+            <div id="showAsara">
+                <select name="asara">
+                    <option value="all">All</option>
+                    <option value="old age pension">old age pension</option>
+                    <option value="disabled">disabled</option>
+                    <option value="widow">widow</option>
+                    <option value="taddy tappers">taddy tappers</option>
+                    <option value="heart patients">heart patients</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="input-field">
+            <p>Disability:</p>
+            <select name="special_category">
+                <option value="all">All</option>
+                <option value="none">1. none</option>
+                <option value="physical">2. physical</option>
+                <option value="mental illness">3. mental illness</option>
+                <option value="visual">4. visual</option>
+                <option value="hearing">4. hearing</option>
+            </select>
+        </div>
+
+        <div class="input-field">
+            <p>Residence Type:</p>
+            <select name="res_type">
+                <option value="all">all</option>
+                <option value="local">Local</option>
+                <option value="non-local">Non - Local</option>
+                <option value="death">death</option>
+                <option value="deleted">deleted</option>
+                <option value="double">double</option>
+            </select>
+        </div>
+
+        <div class="input-field">
+            <p>House Type:</p>
+            <select name="h_type">
+                <option value="all">all</option>
+                <option value="owned">owned</option>
+                <option value="rented">rented</option>
+            </select>
+        </div>
+
+        <div class="input-field">
+            <p>Family size:</p>
+            <select name="f_size">
+                <option value="all">all</option>
+                <option value="1">1. 1</option>
+                <option value="2">2. 2</option>
+                <option value="3">3. 3</option>
+                <option value="4">4. 4</option>
+                <option value="5">5. 5</option>
+                <option value="6">6. 6</option>
+                <option value="7">7. 7</option>
+                <option value="8">8. 8</option>
+                <option value="9">9. 9</option>
+                <option value="10">10. 10 and above</option>
+            </select>
+        </div>
+        
+        <div class="input-field">
+            <p>Party Affiliation:</p>
+            <select name="party_affiliation">
+                <option value="all">all</option>
+                {% for a in parties %}
+                    <option value="{{ a }}">{{ a }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    
+
+        <br><br>
+
+        <div class="input-field">
+            <p>Select an option:</p>
+            <select name="generate">
+                <option value="view">Only View</option>
+                <option value="download">Download Reports</option>
+            </select>
+        </div>
+
+        <div>
+            <input type="submit" class="submit-btn" value="Generate">
+        </div>
+    </form>
+</div>
+
+{% endblock content %}

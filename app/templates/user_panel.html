@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="panel-box-1">
+    <div><img src="static/images/kcr.jpeg" alt="ruling party people"></div>
+    <div><img src="static/images/car.png" alt="ruling party people"></div>
+    <div><img src="static/images/ktr.jpg" alt="ruling party people"></div>
+</div>
+
+<section class="panel-box-2 mt-5">
+    <img src="static/images/kcr.webp">
+    <div>
+        <div class="btn-group">
+            <a href="/input">INPUT</a>
+        </div>
+    </div>
+</section>
+
+<section>
+    <table class="mla-name">
+        <tr>
+            <td><span>{{ mla }}</span></td>
+            <td><span>{{ assembly }}</span> Assembly Constituency</td>
+        </tr>
+    </table>
+</section>
+
+
+
+{% endblock content %}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="style.css") }}">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <title>Voters</title>
+</head>
+<body>
+    <nav>
+        <h1>Voter Profiles</h1>
+        <a href="/">Home</a>
+        {% if main %}
+        <a href="/logout">Logout</a>
+        
+        {% endif %}
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+    {% for cat,message in messages %}
+    
+    <div style="position:relative">
+        <div class="{{ cat }}"><p>{{ message }}</p><p style="cursor:pointer" onclick="closeMessage()">Close</p></div>
+    </div>
+    
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="big-container">
+
+        <form class="fform" action="" method="post">
+            <div class="headingsContainer">
+                <h3>Main Admin Login</h3>
+            </div>
+        
+            <div class="mainContainer">
+        
+                <label for="username">Your username</label>
+                <input type="text" placeholder="Enter Username" name="username" required>
+        
+                <br><br>
+        
+                <label for="pswrd">Your password</label>
+                <input type="password" placeholder="Enter Password" name="pswrd" required>
+        
+                <input class="submit-btn" type="submit" value="Login">
+        
+            </div>
+        
+        </form>
+        
+    </div>
+
+    <footer>
+        <p>STRONG  BRS  -  STRONG  BHARAT</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename="script.js") }}"></script>
+</body>
+</html>
+

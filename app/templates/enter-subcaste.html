@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div>
+    <h1>Sub-caste Entry</h1>
+    <br>
+    <br>
+    <form class="fform" method="post">
+        <select name="caste">
+            {% for c in castes %}
+                <option value="{{ c }}">{{ c }}</option>
+            {% endfor %}
+        </select>
+        <textarea name="sub_castes" row="20" placeholder="Enter all the sub castes separated by commas" required></textarea>
+        <input type="submit" class="submit-btn" value="Submit">
+    </form>
+</div>
+
+{% endblock content %}

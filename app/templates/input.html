@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="form">
+    <form class="input-form" method="post">
+
+        <div onload="">
+            <p>Select the Parliamentry Contituency</p>
+            <select name="constituency" id="selectedConstituency">
+                <option value="">--select--</option>
+
+                {% for c in range(constituencies|length) %}
+                    <option value="{{ constituencies[c] }}">{{c+1}}. {{ constituencies[c] }}</option>
+                {% endfor %}
+
+            </select>
+        </div>
+        
+        <div>
+            <p>Select the Assembly Constituency:</p>
+            <select name="assembly" id="changeAssembly">
+                <option value="">--select--</option>
+
+                {% for a in range(assemblies|length) %}
+                    <option value="{{ assemblies[a] }}">{{a+1}}. {{ assemblies[a] }}</option>
+                {% endfor %}
+
+            </select>
+        </div>
+
+        <div>
+            <div>
+                <p>Select a Polling station number:</p>
+                <select name="polling_station" id="polling_stations">
+                    <option value="">--select--</option>
+                    {% for p in range(1,651) %}
+                    <option value="{{ p }}">{{ p }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <p>Password:</p>
+                <input type="text" name="code" placeholder="Enter Password">
+            </div>
+        </div>
+
+        <input type="submit" value="Go">
+    </form>
+</div>
+
+{% endblock content %}

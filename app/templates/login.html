@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form class="fform" action="" method="post">
+    <div class="headingsContainer">
+        <h3>Login</h3>
+    </div>
+
+    <div class="mainContainer">
+
+        <label for="username">Your username</label>
+        <input type="text" placeholder="Enter Username" name="username" required>
+
+        <br><br>
+
+        <label for="pswrd">Your password</label>
+        <input type="password" placeholder="Enter Password" name="pswrd" required>
+
+        <input class="submit-btn" type="submit" value="Get OTP">
+
+    </div>
+
+</form>
+
+
+{% endblock content %}

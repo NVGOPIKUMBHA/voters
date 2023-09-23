@@ -1,0 +1,689 @@
+{% extends 'admin/admin_base.html' %}
+
+{% block content %}
+
+<div class="summary">
+    <h1>Summary</h1>
+    <br>
+    <div>
+        <h2>Age Group Count:</h2>
+        <div class="horizontal-box">
+            <div class="inner-flex"><p>18 - 29 : </p><b> {{ summary['age']['18-29'] }}</b></div>
+            <div class="inner-flex"><p>30 - 45 : </p><b> {{ summary['age']['30-45'] }}</b></div>
+            <div class="inner-flex"><p>30 - 57 : </p><b> {{ summary['age']['30-57'] }}</b></div>
+            <div class="inner-flex"><p>46 - 57 : </p><b> {{ summary['age']['46-57'] }}</b></div>
+            <div class="inner-flex"><p>58 + : </p><b> {{ summary['age']['58+'] }}</b></div>
+            <div class="inner-flex"><p>70 + : </p><b> {{ summary['age']['70+'] }}</b></div>
+        </div>
+    </div>
+    
+    <br>
+
+    <div class="mypiechart">
+        <canvas id="ageChart"></canvas>
+    </div>
+    <script>
+        let ctx0 = document.getElementById('ageChart').getContext('2d');
+        let myChart0 = new Chart(ctx0, {
+            type: 'pie',
+            data:{
+                datasets:[
+                    {
+                    data: [
+                    {% if summary['age']['sum'] !=0 %}
+                    {{ summary['age']['18-29']/ summary['age']['sum']*100 }}, 
+                    {{ summary['age']['30-45']/summary['age']['sum']*100 }},
+                    {{ summary['age']['30-57']/summary['age']['sum']*100 }},
+                    {{ summary['age']['46-57']/summary['age']['sum']*100 }},
+                    {{ summary['age']['58+']/summary['age']['sum']*100}},
+                    {{ summary['age']['70+']/summary['age']['sum']*100}}
+                    {% else %}
+                    0,0,0,0,0,0
+                    {% endif %}
+                    ],
+                    backgroundColor: ['#FB3640', '#EFCA08', '#43AA8B', '#253D5B','#36debf','#a74bf8',]
+                }],
+                labels: ["18 - 29", 
+                "30 - 45",
+                "30 - 57",
+                "46 - 57",
+                "58 + ",
+                "70 + "]
+            },
+            OPTIONS: {
+                responsive: true
+            }
+        })
+    </script>
+
+    <hr class="separator2">
+
+    <div>
+        <h2>Gender Count:</h2>
+        <div class="horizontal-box">
+            <div class="inner-flex"><p>Male :</p><b>{{ summary['gender']['male'] }}</b></div>
+            <div class="inner-flex"><p>Female :</p><b>{{ summary['gender']['female'] }}</b></div>
+            <div class="inner-flex"><p>Third Gender :</p><b>{{ summary['gender']['others'] }}</b></div>
+        </div>
+    </div>
+    
+    <br>
+
+    <div class="mypiechart">
+        <canvas id="genderChart"></canvas>
+    </div>
+    <script>
+        let ctx1 = document.getElementById('genderChart').getContext('2d');
+        let myChart1 = new Chart(ctx1, {
+            type: 'pie',
+            data:{
+                datasets:[{
+                    data: [
+                    {% if summary['gender']['sum'] !=0 %}
+                    {{ summary['gender']['male']/ summary['gender']['sum'] }}, 
+                    {{ summary['gender']['female']/summary['gender']['sum'] }},
+                    {{ summary['gender']['others']/summary['gender']['sum'] }},
+                    {% else %}
+                    0,0,0
+                    {% endif %}
+                    ],
+                    backgroundColor: ['#FB3640', '#EFCA08', '#43AA8B', '#253D5B','#36debf','#a74bf8',]
+                }],
+                labels: ['male','female','others']
+            },
+            OPTIONS: {
+                responsive: true
+            }
+        })
+    </script>
+
+    <hr class="separator2">
+
+    <div>
+        <h2>Religion Count:</h2>
+        <div class="horizontal-box">
+            {% for k in summary['religion'] %}
+                <div class="inner-flex"><p>{{ k }} :</p><b>{{ summary['religion'][k] }}</b></div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <br>
+
+    <div class="mypiechart">
+        <canvas id="religionChart"></canvas>
+    </div>
+
+    <script>
+        let ctx2 = document.getElementById('religionChart').getContext('2d');
+        let myChart2 = new Chart(ctx2, {
+            type: 'pie',
+            data:{
+                datasets:[{
+                    data: [
+
+                    {% if summary['religion']['sum'] !=0 %}
+                    {% for i in range((summary['utils']['religions']|length)) %}
+                        {{ summary['religion'][summary['utils']['religions'][i]]/ summary['religion']['sum'] }},
+                    {% endfor %}
+                    {% else %}
+                    0
+                    {% endif %}
+                    ],
+                    backgroundColor: ['#FB3640', '#EFCA08', '#43AA8B', '#253D5B','#36debf','#a74bf8',]
+                }],
+                labels: {{summary['utils']['religions']|safe}}
+            },
+            OPTIONS: {
+                responsive: true
+            }
+        })
+    </script>
+
+    <hr class="separator2">
+
+    <div>
+        <h2>Community Count:</h2>
+        <div class="horizontal-box">
+            {% for k in summary['community'] %}
+                <div class="inner-flex"><p>{{ k }} :</p><b>{{ summary['community'][k] }}</b></div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <br>
+
+    <div class="mypiechart">
+        <canvas id="communityChart"></canvas>
+    </div>
+
+    <script>
+        let ctx3 = document.getElementById('communityChart').getContext('2d');
+        let myChart3 = new Chart(ctx3, {
+            type: 'pie',
+            data:{
+                datasets:[{
+                    data: [
+                    {% for i in range((summary['utils']['communities']|length)) %}
+                        {{ summary['community'][summary['utils']['communities'][i]]/ summary['community']['sum'] }},
+                    {% endfor %}
+                    ],
+                    backgroundColor: ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', '#ffffff', '#000000']
+                }],
+                labels: {{summary['utils']['communities']|safe}}
+            },
+            OPTIONS: {
+                responsive: true
+            }
+        })
+    </script>
+
+    <hr class="separator2">
+
+    <div>
+        <h2>Sub Caste Count:</h2>
+        <div class="horizontal-box">
+            {% for k in summary['sub-caste'] %}
+                <div class="inner-flex"><p>{{ k }} :</p><b>{{ summary['sub-caste'][k] }}</b></div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <br>
+
+    <div class="mypiechart">
+        <canvas id="casteChart"></canvas>
+    </div>
+
+    <script>
+        let ctx4 = document.getElementById('casteChart').getContext('2d');
+        let myChart4 = new Chart(ctx4, {
+            type: 'pie',
+            data:{
+                datasets:[{
+                    data: [
+                    {% for i in range((summary['utils']['castes']|length)) %}
+                        {{ summary['sub-caste'][summary['utils']['castes'][i]]/ summary['sub-caste']['sum'] }},
+                    {% endfor %}
+                    ],
+                    backgroundColor: ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', '#ffffff', '#000000']
+                }],
+                labels: {{summary['utils']['castes']|safe}}
+            },
+            OPTIONS: {
+                responsive: true
+            }
+        })
+    </script>
+
+    <hr class="separator2">
+
+    <div>
+        <h2>Disability Count:</h2>
+        <div class="horizontal-box">
+            {% for k in summary['special-category'] %}
+                <div class="inner-flex"><p>{{ k }} :</p><b>{{ summary['special-category'][k] }}</b></div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <br>
+    
+    <div class="mypiechart">
+        <canvas id="specialChart"></canvas>
+    </div>
+
+    <script>
+        let ctx5 = document.getElementById('specialChart').getContext('2d');
+        let myChart5 = new Chart(ctx5, {
+            type: 'pie',
+            data:{
+                datasets:[{
+                    data: [
+                    {% for i in range((summary['utils']['specials']|length)) %}
+                        {{ summary['special-category'][summary['utils']['specials'][i]]/ summary['special-category']['sum'] }},
+                    {% endfor %}
+                    ],
+                    backgroundColor: ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', '#ffffff', '#000000']
+                }],
+                labels: {{summary['utils']['specials']|safe}}
+            },
+            OPTIONS: {
+                responsive: true
+            }
+        })
+    </script>
+
+    <hr class="separator2">
+
+    <div>
+        <h2>Individual Beneficiaries Count:</h2>
+        <div class="horizontal-box">
+            {% for k in summary['individual-beneficiaries'] %}
+                <div class="inner-flex"><p>{{ k }} :</p><b>{{ summary['individual-beneficiaries'][k] }}</b></div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <br>
+
+    <div class="mypiechart">
+        <canvas id="bensChart"></canvas>
+    </div>
+
+    <script>
+        let ctx6 = document.getElementById('bensChart').getContext('2d');
+        let myChart6 = new Chart(ctx6, {
+            type: 'pie',
+            data:{
+                datasets:[{
+                    data: [
+                    {% for i in range((summary['utils']['bens']|length)) %}
+                        {{ summary['individual-beneficiaries'][summary['utils']['bens'][i]]/ summary['individual-beneficiaries']['sum'] }},
+                    {% endfor %}
+                    ],
+                    backgroundColor: ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', '#ffffff', '#000000']
+                }],
+                labels: {{summary['utils']['bens']|safe}}
+            },
+            OPTIONS: {
+                responsive: true
+            }
+        })
+    </script>
+
+    <hr class="separator2">
+
+    <div>
+        <h2>Vehicle Type Count:</h2>
+        <div class="horizontal-box">
+            {% for k in summary['vehicle-type'] %}
+                <div class="inner-flex"><p>{{ k }} :</p><b>{{ summary['vehicle-type'][k] }}</b></div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <br>
+
+    <div class="mypiechart">
+        <canvas id="vehicleChart"></canvas>
+    </div>
+
+    <script>
+        let ctx10 = document.getElementById('vehicleChart').getContext('2d');
+        let myChart10 = new Chart(ctx10, {
+            type: 'pie',
+            data:{
+                datasets:[{
+                    data: [
+                    {% for i in range((summary['utils']['vehicle']|length)) %}
+                        {{ summary['vehicle-type'][summary['utils']['vehicle'][i]]/ summary['vehicle-type']['sum'] }},
+                    {% endfor %}
+                    ],
+                    backgroundColor: ['#FB3640', '#EFCA08', '#43AA8B', '#253D5B','#36debf','#a74bf8',]
+                }],
+                labels: {{summary['utils']['vehicle']|safe}}
+            },
+            OPTIONS: {
+                responsive: true
+            }
+        })
+    </script>
+
+    <hr class="separator2">
+
+    <div>
+        <h2>Education Count:</h2>
+        <div class="horizontal-box">
+            <div class="inner-flex"><p>Illiterate :</p><b>{{ summary['education']['illiterate'] }}</b></div>
+            <div class="inner-flex"><p>Below 10 :</p><b>{{ summary['education']['below-10'] }}</b></div>
+            <div class="inner-flex"><p>10 :</p><b>{{ summary['education']['10'] }}</b></div>
+            <div class="inner-flex"><p>Intermediate :</p><b>{{ summary['education']['inter'] }}</b></div>
+            <div class="inner-flex"><p>Degree :</p><b>{{ summary['education']['degree'] }}</b></div>
+            <div class="inner-flex"><p>Post Graduation</p><b>{{ summary['education']['pg'] }}</b></div>
+            <div class="inner-flex"><p>PhD :</p><b>{{ summary['education']['phd'] }}</b></div>
+        </div>
+    </div>
+    
+    <br>
+
+    <div class="mypiechart">
+        <canvas id="edusChart"></canvas>
+    </div>
+
+    <script>
+        let ctx7 = document.getElementById('edusChart').getContext('2d');
+        let myChart7 = new Chart(ctx7, {
+            type: 'pie',
+            data:{
+                datasets:[{
+                    data: [
+                    {% for i in range((summary['utils']['edus']|length)) %}
+                        {{ summary['education'][summary['utils']['edus'][i]]/ summary['education']['sum'] }},
+                    {% endfor %}
+                    ],
+                    backgroundColor: ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', '#ffffff', '#000000']
+                }],
+                labels: {{summary['utils']['edus']|safe}}
+            },
+            OPTIONS: {
+                responsive: true
+            }
+        })
+    </script>
+
+    <hr class="separator2">
+
+    <div>
+        <h2>Profession Count:</h2>
+        <div class="horizontal-box">
+            <div class="inner-flex"><p>Private Employee :</p><b>{{ summary['profession']['private-employee'] }}</b></div>
+            <div class="inner-flex"><p>Government Employee :</p><b>{{ summary['profession']['govt-employee'] }}</b></div>
+            <div class="inner-flex"><p>Self-Employed :</p><b>{{ summary['profession']['self-employed'] }}</b></div>
+            <div class="inner-flex"><p>Business :</p><b>{{ summary['profession']['business'] }}</b></div>
+            <div class="inner-flex"><p>Farmer :</p><b>{{ summary['profession']['farmer'] }}</b></div>
+            <div class="inner-flex"><p>Labour :</p><b>{{ summary['profession']['labour'] }}</b></div>
+            <div class="inner-flex"><p>Student :</p><b>{{ summary['profession']['student'] }}</b></div>
+            <div class="inner-flex"><p>Others :</p><b>{{ summary['profession']['others'] }}</b></div>
+        </div>
+    </div>
+    
+    <br>
+
+    <div class="mypiechart">
+        <canvas id="proChart"></canvas>
+    </div>
+
+    <script>
+        let ctx8 = document.getElementById('proChart').getContext('2d');
+        let myChart8 = new Chart(ctx8, {
+            type: 'pie',
+            data:{
+                datasets:[{
+                    data: [
+                    {% for i in range((summary['utils']['pro']|length)) %}
+                        {{ summary['profession'][summary['utils']['pro'][i]]/ summary['profession']['sum'] }},
+                    {% endfor %}
+                    ],
+                    backgroundColor: ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', '#ffffff', '#000000']
+                }],
+                labels: {{summary['utils']['pro']|safe}}
+            },
+            OPTIONS: {
+                responsive: true
+            }
+        })
+    </script>
+
+    <hr class="separator2">
+
+    <div>
+        <h2>Party Affiliation Count:</h2>
+        <div class="horizontal-box">
+            {% for k in summary['party-affiliation'] %}
+                <div class="inner-flex"><p>{{ k }} :</p><b>{{ summary['party-affiliation'][k] }}</b></div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <br>
+
+    <div class="mypiechart">
+        <canvas id="affChart"></canvas>
+    </div>
+
+    <script>
+        let ctx9 = document.getElementById('affChart').getContext('2d');
+        let myChart9 = new Chart(ctx9, {
+            type: 'pie',
+            data:{
+                datasets:[{
+                    data: [
+                    {% for i in range((summary['utils']['aff']|length)) %}
+                        {{ summary['party-affiliation'][summary['utils']['aff'][i]]/ summary['party-affiliation']['sum'] }},
+                    {% endfor %}
+                    ],
+                    backgroundColor: ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', '#ffffff', '#000000']
+                }],
+                labels: {{summary['utils']['aff']|safe}}
+            },
+            OPTIONS: {
+                responsive: true
+            }
+        })
+    </script>
+
+    <hr class="separator2">
+
+    <div>
+        <h2>Local Leader Influencer Count:</h2>
+        <div class="horizontal-box">
+            {% for k in summary['local_leader'] %}
+                <div class="inner-flex"><p>{{ k }} :</p><b>{{ summary['local_leader'][k] }}</b></div>
+            {% endfor %}
+        </div>
+    </div>
+    <br>
+
+    <div class="mypiechart">
+        <canvas id="leaderChart"></canvas>
+    </div>
+
+    <script>
+        let ctx13 = document.getElementById('leaderChart').getContext('2d');
+        let myChart13 = new Chart(ctx13, {
+            type: 'pie',
+            data:{
+                datasets:[{
+                    data: [
+                    {% for i in range((summary['utils']['leader']|length)) %}
+                        {{ summary['local_leader'][summary['utils']['leader'][i]]/ summary['local_leader']['sum'] }},
+                    {% endfor %}
+                    ],
+                    backgroundColor: ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', '#ffffff', '#000000']
+                }],
+                labels: {{summary['utils']['leader']|safe}}
+            },
+            OPTIONS: {
+                responsive: true
+            }
+        })
+    </script>
+
+    <hr class="separator2">
+
+    <div>
+        <h2>Family Size Count:</h2>
+        <div class="horizontal-box">
+            {% for k in summary['family_size'] %}
+                <div class="inner-flex"><p>{{ k }} :</p><b>{{ summary['family_size'][k] }}</b></div>
+            {% endfor %}
+        </div>
+    </div>
+    <br>
+
+    <hr class="separator2">
+
+    <div>
+        <h2>Residence Type:</h2>
+        <div class="horizontal-box">
+            <div class="inner-flex"><p>Local :</p><b>{{ summary['residence-type']['local'] }}</b></div>
+            <div class="inner-flex"><p>Non-local :</p><b>{{ summary['residence-type']['non-local'] }}</b></div>
+        </div>
+    </div>
+    
+    <br>
+
+    <div class="mypiechart">
+        <canvas id="resdChart"></canvas>
+    </div>
+
+    <script>
+        let ctx11 = document.getElementById('resdChart').getContext('2d');
+        let myChart11 = new Chart(ctx11, {
+            type: 'pie',
+            data:{
+                datasets:[{
+                    data: [
+                    {% for i in range((summary['utils']['resd']|length)) %}
+                        {{ summary['residence-type'][summary['utils']['resd'][i]]/ summary['residence-type']['sum'] }},
+                    {% endfor %}
+                    ],
+                    backgroundColor: ['#FB3640', '#EFCA08', '#43AA8B', '#253D5B','#36debf','#a74bf8',]
+                }],
+                labels: {{summary['utils']['resd']|safe}}
+            },
+            OPTIONS: {
+                responsive: true
+            }
+        })
+    </script>
+
+    <hr class="separator2">
+
+    <div>
+        <h2>House Type:</h2>
+        <div class="horizontal-box">
+            <div class="inner-flex"><p>Owned :</p><b>{{ summary['house-type']['owned'] }}</b></div>
+            <div class="inner-flex"><p>Rented :</p><b>{{ summary['house-type']['rented'] }}</b></div>
+        </div>
+    </div>
+    
+    <br>
+
+    <div class="mypiechart">
+        <canvas id="houseChart"></canvas>
+    </div>
+
+    <script>
+        let ctx12 = document.getElementById('houseChart').getContext('2d');
+        let myChart12 = new Chart(ctx12, {
+            type: 'pie',
+            data:{
+                datasets:[{
+                    data: [
+                    {% for i in range((summary['utils']['house']|length)) %}
+                        {{ summary['house-type'][summary['utils']['house'][i]]/ summary['house-type']['sum'] }},
+                    {% endfor %}
+                    ],
+                    backgroundColor: ['#FB3640', '#EFCA08', '#43AA8B', '#253D5B','#36debf','#a74bf8',]
+                }],
+                labels: {{summary['utils']['house']|safe}}
+            },
+            OPTIONS: {
+                responsive: true
+            }
+        })
+    </script>
+
+    <hr class="separator2">
+
+</div>
+
+<div class="broadcast-form">
+    <h2>Broadcast A Text Message to the below voters list:<h2>
+    <form id="broadcast-form">
+        <textarea name="message" rows="10"  placeholder="Write your message here..."></textarea>
+        <input type="submit" value="Broadcast">
+    </form>
+</div>
+
+<div class="broadcast-form">
+    <h2>Broadcast A Voice Message to the below voters list:<h2>
+    <form id="voice-broadcast-form">
+        <textarea name="message" rows="10"  placeholder="Paste your recorded voice message link here"></textarea>
+        <input type="submit" value="Broadcast Voice">
+    </form>
+</div>
+
+<div class="report-table">
+    <h1>The Voters are:</h1>
+    <br>
+    <table>
+        <tr>
+            <th>PC</th>
+            <th>AC</th>
+            <th>Mandal</th>
+            <th>PS No.</th>
+            <th>Town/Village</th>
+            <th>Serial No.</th>
+            <th>Epic No.</th>
+            <th>Habitation</th>
+            <th>House No.</th>
+            <th>Family No.</th>
+            <th>Name</th>
+            <th>Father/Husband</th>
+            <th>Relation</th>
+            <th>Department</th>
+            <th>Age</th>
+            <th>DOB</th>
+            <th>Gender</th>
+            <th>N. District</th>
+            <th>N. State</th>
+            <th>Religion</th>
+            <th>Community</th>
+            <th>Sub Caste</th>
+            <th>Qualification</th>
+            <th>Profession</th>
+            <th>Company</th>
+            <th>Working Place</th>
+            <th>Business Type</th>
+            <th>Is Beneficiary</th>
+            <th>Beneficiaries</th>
+            <th>Email</th>
+            <th>Contact No.</th>
+            <th>Party Affiliation</th>
+            <th>Residence Type</th>
+            <th>Residence</th>
+            <th>House Type</th>
+            <th>Special Category</th>
+            <th>Modified by</th>
+        </tr>
+
+        {% for r in result %}
+        
+            <tr>
+                <td>{{ r.constituency }}</td>
+                <td>{{ r.assembly }}</td>
+                <td>{{ r.mandal }}</td>
+                <td>{{ r.polling_number }}</td>
+                <td>{{ r.town }}</td>
+                <td>{{ r.serial_no }}</td>
+                <td>{{ r.epic_no }}</td>
+                <td>{{ r.habitation }}</td>
+                <td>{{ r.house_no }}</td>
+                <td>{{ r.family_no }}</td>
+                <td>{{ r.name }}</td>
+                <td>{{ r.guardian_name }}</td>
+                <td>{{ r.relation }}</td>
+                <td>{{ r.department }}</td>
+                <td>{{ r.age }}</td>
+                <td>{{ r.dob }}</td>
+                <td>{{ r.gender }}</td>
+                <td>{{ r.native_district }}</td>
+                <td>{{ r.native_state }}</td>
+                <td>{{ r.religion }}</td>
+                <td>{{ r.community }}</td>
+                <td>{{ r.sub_caste }}</td>
+                <td>{{ r.qualification }}</td>
+                <td>{{ r.profession }}</td>
+                <td>{{ r.company }}</td>
+                <td>{{ r.working_place }}</td>
+                <td>{{ r.business_type }}</td>
+                <td>{{ r.is_beneficiary }}</td>
+                <td>{{ r.beneficiaries }}</td>
+                <td>{{ r.email }}</td>
+                <td class="mycontacts">{{ r.contact_no }}</td>
+                <td>{{ r.party_affiliation }}</td>
+                <td>{{ r.residence_type }}</td>
+                <td>{{ r.residence }}</td>
+                <td>{{ r.house_type }}</td>
+                <td>{{ r.special_category }}</td>
+                <td>{{ r.modified_by }}</td>
+            </tr>
+        
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock content %}
